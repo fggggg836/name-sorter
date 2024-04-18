@@ -1,2 +1,7 @@
 ﻿language: csharp
-solution: solution-name.sln
+mono: none
+dotnet: 2.1.502
+solution: name-sorter.sln
+script:
+  - dotnet restore
+  - dotnet test
