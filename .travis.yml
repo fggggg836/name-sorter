@@ -1,6 +1,6 @@
 language: csharp
 solution: name-sorter.sln
 mono: none
-dotnet: 8.0.204
+dotnet: 5.0.416
 script:
  - dotnet restore
