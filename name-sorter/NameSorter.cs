@@ -6,43 +6,45 @@ using System.Threading.Tasks;
 
 namespace name_sorter
 {
-    internal class NameSorter
+    public class NameSorter
     {
-        private List<Name> names;
+        public List<Name> Names { get; set; }
         public NameSorter(List<string> nameList) 
         {
-            names = new List<Name>();
+            Names = [];
             foreach (var name in nameList)
             {
-                if (name != null)
-                names.Add(new Name(name));
+                if(name != "")
+                {
+                    Names.Add( new Name( name ) );
+                }
             }
         }
 
         public List<string> SortNames()
         {
-            var sortedNames = names
-                .OrderBy( n => n.lastName )
-                .ThenBy( n => n.firstNames )
-                .Select( n => n.fullName )
+            var sortedNames = Names
+                .OrderBy( n => n.LastName )
+                .ThenBy( n => n.FirstNames )
+                .Select( n => n.FullName )
                 .ToList();
             return sortedNames;
         }
 
     }
 
-    internal class Name
+    public class Name
     {
-        public string lastName;
-        public List<string> firstNames;
-        public string fullName;
+        public string LastName { get; set; }
+        public List<string> FirstNames { get; set; }
+        public string FullName { get; set; }
 
         public Name(string nameListLine)
         {
             var nameArr = nameListLine.Split(' ').ToList();
-            lastName = nameArr.Last();
-            firstNames = nameArr[..^1];
-            fullName = nameListLine;
+            LastName = nameArr.Last();
+            FirstNames = nameArr[..^1];
+            FullName = nameListLine;
         }
     }
 }

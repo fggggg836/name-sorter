@@ -8,7 +8,7 @@ namespace name_sorter
 {
     internal class TextFileManager
     {
-        public static List<string> ReadFile(string path)
+        public static List<string> ReadNamesFromFile(string path)
         {
             List<string> nameList = [];
             string line;
@@ -29,13 +29,9 @@ namespace name_sorter
                 Console.WriteLine( "Exception: " + e.Message );
                 return nameList;
             }
-            finally
-            {
-                Console.WriteLine( "Executing finally block." );
-            }
         }
 
-        public static void WriteFile( List<string> names, string path )
+        public static void WriteNamesToFile( List<string> names, string path )
         {
             try
             {
@@ -50,10 +46,6 @@ namespace name_sorter
             catch(Exception e)
             {
                 Console.WriteLine( "Exception: " + e.Message );
-            }
-            finally
-            {
-                Console.WriteLine( "Executing finally block." );
             }
         }
 
