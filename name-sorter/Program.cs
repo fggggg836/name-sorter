@@ -1,2 +1,3 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿// Initial commit
 Console.WriteLine( "Hello, World!" );
+
