@@ -75,7 +75,7 @@ namespace name_sorter_tests
         }
 
         [TestMethod]
-        public void NameSorter_SortNames_FilterOutNull()
+        public void NameSorter_SortNames_FilterOutEmpty()
         {
             var nameList = new List<string>
             {
