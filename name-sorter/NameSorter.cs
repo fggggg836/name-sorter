@@ -14,7 +14,7 @@ namespace name_sorter
             Names = [];
             foreach (var name in nameList)
             {
-                if(name != "")
+                if(name != "" && name != null)
                 {
                     Names.Add( new Name( name ) );
                 }

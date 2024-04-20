@@ -15,7 +15,10 @@ namespace name_sorter
             try
             {
                 StreamReader sr = new StreamReader( path );
+
                 line = sr.ReadLine();
+                nameList.Add( line );
+
                 while(line != null)
                 {
                     line = sr.ReadLine();
