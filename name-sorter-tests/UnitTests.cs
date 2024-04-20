@@ -10,25 +10,24 @@ namespace name_sorter_tests
         [TestMethod]
         public void Name_Constructor_CreateNameObject()
         {
-            var nameString = "Firstname Lastname";
+            var nameString = "Forename Lastname";
             var name = new Name( nameString );
 
             Assert.IsNotNull( name );
             Assert.AreEqual( name.LastName, "Lastname" );
-            Assert.AreEqual( name.FirstNames.First(), "Firstname" );
-            Assert.AreEqual( name.FullName, "Firstname Lastname" );
+            Assert.AreEqual( name.Forename1, "Forename" );
+            Assert.AreEqual( name.FullName, "Forename Lastname" );
         }
 
         [TestMethod]
-        public void Name_Constructor_CreateNameObjectWithMultipleFirstnames()
+        public void Name_Constructor_CreateNameObjectWithMultipleForenames()
         {
-            var nameString = "Firstname1 Firstname2 Firstname3 Lastname";
+            var nameString = "Forename1 Forename2 Forename3 Lastname";
             var name = new Name( nameString );
 
-            Assert.AreEqual( name.FirstNames.ElementAt( 0 ), "Firstname1" );
-            Assert.AreEqual( name.FirstNames.ElementAt( 1 ), "Firstname2" );
-            Assert.AreEqual( name.FirstNames.ElementAt( 2 ), "Firstname3" );
-            Assert.AreEqual( name.FirstNames.Count, 3 );
+            Assert.AreEqual( name.Forename1, "Forename1" );
+            Assert.AreEqual( name.Forename2, "Forename2" );
+            Assert.AreEqual( name.Forename3, "Forename3" );
         }
 
         [TestMethod]
@@ -36,18 +35,18 @@ namespace name_sorter_tests
         {
             var nameList = new List<string>
             {
-                "Firstname1 Lastname1",
-                "Firstname2 Lastname2"
+                "Forename1 Lastname1",
+                "Forename2 Lastname2"
             };
             var nameSorter = new NameSorter(nameList);
 
             Assert.AreEqual( nameSorter.Names.ElementAt( 0 ).LastName, "Lastname1" );
-            Assert.AreEqual( nameSorter.Names.ElementAt( 0 ).FirstNames.First(), "Firstname1" );
-            Assert.AreEqual( nameSorter.Names.ElementAt( 0 ).FullName, "Firstname1 Lastname1" );
+            Assert.AreEqual( nameSorter.Names.ElementAt( 0 ).Forename1, "Forename1" );
+            Assert.AreEqual( nameSorter.Names.ElementAt( 0 ).FullName, "Forename1 Lastname1" );
 
             Assert.AreEqual( nameSorter.Names.ElementAt( 1 ).LastName, "Lastname2" );
-            Assert.AreEqual( nameSorter.Names.ElementAt( 1 ).FirstNames.First(), "Firstname2" );
-            Assert.AreEqual( nameSorter.Names.ElementAt( 1 ).FullName, "Firstname2 Lastname2" );
+            Assert.AreEqual( nameSorter.Names.ElementAt( 1 ).Forename1, "Forename2" );
+            Assert.AreEqual( nameSorter.Names.ElementAt( 1 ).FullName, "Forename2 Lastname2" );
 
             Assert.AreEqual( nameSorter.Names.Count, 2 );
 
@@ -60,16 +59,16 @@ namespace name_sorter_tests
         {
             var nameList = new List<string>
             {
-                "Firstname3 Lastname3",
-                "Firstname2 Lastname2",
-                "Firstname1 Lastname1"
+                "Forename3 Lastname3",
+                "Forename2 Lastname2",
+                "Forename1 Lastname1"
             };
             var nameSorter = new NameSorter( nameList );
             var sortedNames = nameSorter.SortNames();
 
-            Assert.AreEqual( sortedNames.ElementAt( 0 ), "Firstname1 Lastname1" );
-            Assert.AreEqual( sortedNames.ElementAt( 1 ), "Firstname2 Lastname2" );
-            Assert.AreEqual( sortedNames.ElementAt( 2 ), "Firstname3 Lastname3" );
+            Assert.AreEqual( sortedNames.ElementAt( 0 ), "Forename1 Lastname1" );
+            Assert.AreEqual( sortedNames.ElementAt( 1 ), "Forename2 Lastname2" );
+            Assert.AreEqual( sortedNames.ElementAt( 2 ), "Forename3 Lastname3" );
 
             Assert.AreEqual( sortedNames.Count, 3 );
         }
@@ -79,18 +78,79 @@ namespace name_sorter_tests
         {
             var nameList = new List<string>
             {
-                "Firstname2 Lastname2",
+                "Forename2 Lastname2",
                 "",
-                "Firstname1 Lastname1"
+                "Forename1 Lastname1"
             };
             var nameSorter = new NameSorter( nameList );
             var sortedNames = nameSorter.SortNames();
 
-            Assert.AreEqual( sortedNames.ElementAt( 0 ), "Firstname1 Lastname1" );
-            Assert.AreEqual( sortedNames.ElementAt( 1 ), "Firstname2 Lastname2" );
+            Assert.AreEqual( sortedNames.ElementAt( 0 ), "Forename1 Lastname1" );
+            Assert.AreEqual( sortedNames.ElementAt( 1 ), "Forename2 Lastname2" );
 
             Assert.AreEqual( sortedNames.Count, 2 );
         }
 
+        [TestMethod]
+        public void NameSorter_SortNames_HandlesDoubleSpace()
+        {
+            var nameList = new List<string>
+            {
+                "Forename2  Lastname2",
+                "Forename1 Lastname1"
+            };
+            var nameSorter = new NameSorter( nameList );
+            var sortedNames = nameSorter.SortNames();
+
+            Assert.AreEqual( sortedNames.ElementAt( 0 ), "Forename1 Lastname1" );
+            Assert.AreEqual( sortedNames.ElementAt( 1 ), "Forename2  Lastname2" );
+
+            Assert.AreEqual( sortedNames.Count, 2 );
+        }
+
+        [TestMethod]
+        public void NameSorter_SortNames_HandlesMultipleForenames()
+        {
+            var nameList = new List<string>
+            {
+                "Forename1 Secondname1 Thirdname2 Lastname1",
+                "Forename1 Secondname1 Thirdname1 Lastname1"
+            };
+            var nameSorter = new NameSorter( nameList );
+            var sortedNames = nameSorter.SortNames();
+
+            Assert.AreEqual( sortedNames.ElementAt( 0 ), "Forename1 Secondname1 Thirdname1 Lastname1" );
+            Assert.AreEqual( sortedNames.ElementAt( 1 ), "Forename1 Secondname1 Thirdname2 Lastname1" );
+
+            Assert.AreEqual( sortedNames.Count, 2 );
+        }
+
+        [TestMethod]
+        public void NameSorter_SortNames_HandlesNamesWithDifferentNumbersOfForenames()
+        {
+            var nameList = new List<string>
+            {
+                "Forename1 Secondname1 Thirdname1 Lastname1",
+                "Forename1 Secondname1 Lastname1"
+            };
+            var nameSorter = new NameSorter( nameList );
+            var sortedNames = nameSorter.SortNames();
+
+            Assert.AreEqual( sortedNames.ElementAt( 0 ), "Forename1 Secondname1 Lastname1" );
+            Assert.AreEqual( sortedNames.ElementAt( 1 ), "Forename1 Secondname1 Thirdname1 Lastname1" );
+
+            Assert.AreEqual( sortedNames.Count, 2 );
+        }
+
+
+        [TestMethod]
+        public void NameSorter_SortNames_HandlesEmptyList()
+        {
+            var nameList = new List<string>();
+            var nameSorter = new NameSorter( nameList );
+            var sortedNames = nameSorter.SortNames();
+
+            Assert.AreEqual( sortedNames.Count, 0 );
+        }
     }
 }

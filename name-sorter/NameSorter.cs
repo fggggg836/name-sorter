@@ -25,7 +25,9 @@ namespace name_sorter
         {
             var sortedNames = Names
                 .OrderBy( n => n.LastName )
-                .ThenBy( n => n.FirstNames )
+                .ThenBy( n => n.Forename1 )
+                .ThenBy( n => n.Forename2 )
+                .ThenBy( n => n.Forename3 )
                 .Select( n => n.FullName )
                 .ToList();
             return sortedNames;
@@ -36,14 +38,18 @@ namespace name_sorter
     public class Name
     {
         public string LastName { get; set; }
-        public List<string> FirstNames { get; set; }
+        public string Forename1 { get; set; }
+        public string Forename2 { get; set; }
+        public string Forename3 { get; set; }
         public string FullName { get; set; }
 
         public Name(string nameListLine)
         {
             var nameArr = nameListLine.Split(' ').ToList();
             LastName = nameArr.Last();
-            FirstNames = nameArr[..^1];
+            Forename1 = nameArr.First();
+            Forename2 = nameArr.Count > 2 ? nameArr[1] : "";
+            Forename3 = nameArr.Count == 4 ? nameArr[2] : "";
             FullName = nameListLine;
         }
     }

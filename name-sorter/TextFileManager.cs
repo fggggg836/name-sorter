@@ -14,7 +14,7 @@ namespace name_sorter
             string line;
             try
             {
-                StreamReader sr = new StreamReader( path );
+                StreamReader sr = new( path );
 
                 line = sr.ReadLine();
                 nameList.Add( line );
@@ -29,7 +29,7 @@ namespace name_sorter
             }
             catch(Exception e)
             {
-                Console.WriteLine( "Exception: " + e.Message );
+                Console.WriteLine( "Error reading file: " + e.Message );
                 return nameList;
             }
         }
@@ -38,7 +38,7 @@ namespace name_sorter
         {
             try
             {
-                StreamWriter sw = new StreamWriter( path );
+                StreamWriter sw = new( path );
                 foreach( string name in names )
                 {
                     sw.WriteLine( name );
@@ -48,7 +48,7 @@ namespace name_sorter
             }
             catch(Exception e)
             {
-                Console.WriteLine( "Exception: " + e.Message );
+                Console.WriteLine( "Error writing to file: " + e.Message );
             }
         }
 
